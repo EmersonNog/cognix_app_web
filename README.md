@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cognix Web App
 
-## Getting Started
+Versao web do Cognix criada com Next.js, React, TypeScript e Tailwind CSS.
 
-First, run the development server:
+## Scripts
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm run build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Arquitetura
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+O projeto usa uma organizacao por modulos com separacao inspirada em MVC.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### `app/`
 
-## Learn More
+Camada de roteamento do Next.js. Os arquivos `page.tsx` e `layout.tsx` devem ser finos e delegar renderizacao para controllers ou views.
 
-To learn more about Next.js, take a look at the following resources:
+### `src/modules/<module>/model`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Dados, tipos, constantes e contratos do modulo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Exemplos no modulo `auth`:
 
-## Deploy on Vercel
+- Conteudo das telas
+- Rotas da autenticacao
+- Provedores sociais
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### `src/modules/<module>/controller`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Orquestracao da tela e regras de interacao.
+
+Exemplos no modulo `auth`:
+
+- Controllers de pagina
+- Hooks de formulario
+- Handlers de submit
+- Estado de UI ligado a comportamento
+
+### `src/modules/<module>/view`
+
+Componentes visuais, telas e estilos do modulo.
+
+Exemplos no modulo `auth`:
+
+- `view/screens`
+- `view/components`
+- `view/styles`
+
+### `src/shared`
+
+Codigo compartilhado entre modulos. Tambem segue a mesma ideia:
+
+- `shared/model`
+- `shared/view`
+
+## Estilos
+
+O arquivo `app/globals.css` e apenas o ponto de entrada global.
+
+```css
+@import "tailwindcss";
+@import "../src/shared/view/styles/global.css";
+@import "../src/modules/auth/view/styles/auth.css";
+```
+
+Estilos globais ficam em `src/shared/view/styles/global.css`. A interface das telas usa Tailwind direto nos componentes. O arquivo `src/modules/auth/view/styles/auth.css` deve ficar restrito a animacoes e regras que nao sao ergonomicas em utilitarios Tailwind.
