@@ -13,6 +13,23 @@
   --accent: #e29a28;
 }
 
+.dark {
+  --background: #060e20;
+  --foreground: #dee5ff;
+  --muted: #9aa6c5;
+  --border: rgba(154, 166, 197, 0.14);
+  --surface: #0f1930;
+  --surface-low: #091328;
+  --surface-high: #141f38;
+  --primary: #a3a6ff;
+  --primary-dim: #6063ee;
+  --secondary: #7ed6c5;
+  --secondary-dim: #8455ef;
+  --accent: #ffc56e;
+}
+
+@variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -42,9 +59,12 @@ html {
 body {
   min-height: 100svh;
   color: var(--foreground);
-  background:
-    linear-gradient(180deg, #f7f9ff 0%, #f3f6ff 100%);
+  background: linear-gradient(180deg, #f7f9ff 0%, #f3f6ff 100%);
   background-attachment: fixed;
+}
+
+.dark body {
+  background: linear-gradient(180deg, #060e20 0%, #091328 100%);
 }
 
 a {
@@ -55,5 +75,10 @@ a {
 ::selection {
   background: rgba(92, 99, 230, 0.18);
   color: #15213d;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
